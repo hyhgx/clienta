@@ -1,26 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  <div class="insert">
+    <InfoEntry/>
+  </div>
+  <div class="query">
+    <QueryInfo/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+// import HelloWorld from './components/HelloWorld.vue'
+import InfoEntry from './components/InfoEntry.vue'
+import QueryInfo from './components/QueryInfo.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    InfoEntry,
+    QueryInfo
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+.query{
+  float:right;
 }
+.insert{
+  float: left;
+}
+
 </style>
