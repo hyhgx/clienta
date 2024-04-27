@@ -43,6 +43,10 @@
               <el-table-column label="身份证号" prop="identity" width="500px"/>
               <el-table-column label="姓名" prop="name" />
             </el-table> 
+            <label>总计：{{count}}</label>
+            <label style="margin-left:30%;">数据导入本地：</label>
+            <el-input style="width: 200px;" v-model.loginId="loginId" autocomplete="off"></el-input>
+            <el-button :disabled="isdisabled1" class="loginButton"  @click="loginRequest">导入</el-button>
       </div>
   </template>
   <script>
@@ -50,8 +54,11 @@
   export default{
       data(){
           return { 
+              loginId:'',
+              count:0,
               tableData:[],
               isdisabled:false,
+              isdisabled1:false,
               queryDataForm:{
                   id:'',
                   name:'',
@@ -78,6 +85,7 @@
               };
               axios.post('/api',data).then((response)=>{
               this.tableData=response.data
+              this.count=response.data.length
               this.isdisabled=false
               })
             }else{
@@ -88,6 +96,41 @@
         setResultNull(formName){
           this.$refs[formName].resetFields();
           this.tableData=[];
+          this.count=0;
+          this.loginId='';
+        },
+        loginRequest(){
+          let flag=false;
+          let logindata;
+          console.log(this.loginId)
+          for(let item of this.tableData){
+            if(item.identity==this.loginId){
+              flag=true;
+              logindata=item;
+              console.log(item)
+            }
+          }
+          if(flag==false){
+            alert('请输入上表存在的用户!')
+          }else{
+            this.isdisabled1=true;
+            let s=JSON.stringify(logindata);
+            let data={
+              type:'insert',
+              info:s
+            };
+            axios.post('/api',data).then(response => {
+              if(response.data=='保存成功!')
+                {
+                  alert('导入成功!')
+              }else{
+                  alert(response.data)
+              }
+              this.isdisabled1=false;
+            }).catch(function (error) { // 请求失败处理
+                console.log(error);
+            });    
+          }
         }
       }
   }

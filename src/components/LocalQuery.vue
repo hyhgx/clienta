@@ -43,6 +43,7 @@
             <el-table-column label="身份证号" prop="identity" width="500px"/>
             <el-table-column label="姓名" prop="name" />
           </el-table> 
+          <label>总计：{{count}}</label>
     </div>
 </template>
 <script>
@@ -50,6 +51,7 @@ import axios from "axios"
 export default{
     data(){
         return { 
+            count:0,
             tableData:[],
             isdisabled:false,
             queryDataForm:{
@@ -86,8 +88,8 @@ export default{
             axios.post('/api',data).then((response)=>{
             //   this.queryDataForm.results=JSON.stringify(response.data);
             console.log(response.data)
+            this.count=response.data.length
             this.tableData=response.data
-
             this.isdisabled=false
             })
           }else{
@@ -98,6 +100,7 @@ export default{
       setResultNull(formName){
         this.$refs[formName].resetFields();
         this.tableData=[];
+        this.count=0;
       }
     }
 }
